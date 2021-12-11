@@ -14,7 +14,31 @@ public final class IntegerDuplicateDeleter extends DuplicateDeleter<Integer> {
 
     @Override
     public Integer[] removeDuplicates(int maxNumberOfDuplications) {
-        return new Integer[0];
+        int counter = 0;
+        int length = intArray.length;
+
+        if (maxNumberOfDuplications == 0 || maxNumberOfDuplications == 1) {
+            return new Integer[0];
+        }
+
+        for (int i = 0; i < intArray.length; i++) {
+            if (numberOfDuplications(intArray, intArray[i]) >= maxNumberOfDuplications) {
+                length = length-numberOfDuplications(intArray, intArray[i]);
+                i += numberOfDuplications(intArray, intArray[i])-1;
+            }
+        }
+
+        Integer[] newArr = new Integer[length];
+
+        for (int i = 0; i < intArray.length; i++) {
+            if (numberOfDuplications(intArray, intArray[i]) >= maxNumberOfDuplications) {
+                continue;
+            }
+            newArr[counter] = intArray[i];
+            counter++;
+        }
+
+        return newArr;
     }
 
     @Override
@@ -40,7 +64,6 @@ public final class IntegerDuplicateDeleter extends DuplicateDeleter<Integer> {
         }
 
         return newArr;
-
     }
 
     public Integer numberOfDuplications(Integer[] arr, Integer checkNum) {
